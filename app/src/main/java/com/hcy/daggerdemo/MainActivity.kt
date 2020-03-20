@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.hcy.daggerdemo.bean.A
 import com.hcy.daggerdemo.bean.User
+import com.hcy.daggerdemo.component.DaggerAppComponent
+import com.hcy.daggerdemo.qualifier.UserNamed
 
 
 import kotlinx.android.synthetic.main.activity_main.*
@@ -27,28 +29,33 @@ import javax.inject.Inject
  *
  */
 class MainActivity : AppCompatActivity() {
+    @UserNamed("one")
     @Inject
     lateinit var a:A
+    @UserNamed("two")
+    @Inject
+    lateinit var b:A
     @Inject
     lateinit var gosn:Gson
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
+        val user = User()
+        user.name = "张三"
+        user.avatar = "password"
+        MApplication.get(this).creatUserComponent(user)
+        DaggerAppComponent.builder().build().plus().inject(this)
         btn1.setOnClickListener {
             a.filed="测试内容"
             val toJson = gosn.toJson(a)
             Log.e("TAG", "onCreate: $toJson")
             a.doSomeThing()
+            val tob = gosn.toJson(b)
+            Log.e("TAG", "onCreate: $tob")
         }
 
         btn2.setOnClickListener {
-            val user = User()
-            user.name="张三"
-            user.avatar="password"
-            MApplication.get(this).creatUserComponent(user);
             startActivity(Intent(this,AActivity::class.java))
         }
 

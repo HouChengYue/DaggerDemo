@@ -19,7 +19,7 @@ public class MApplication : Application() {
     /**
      * application 组件
      */
-    private lateinit var appComponent: AppComponent
+     lateinit var appComponent: AppComponent
 
     /**
      * 用户组件

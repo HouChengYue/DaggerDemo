@@ -15,4 +15,5 @@ import javax.inject.Singleton;
 @Component(modules = AppMoudle.class)
 public interface AppComponent {
   UserComponent plus(UserModule userModule);
+  MainComponent plus();
 }
